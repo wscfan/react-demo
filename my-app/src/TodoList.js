@@ -1,4 +1,5 @@
 import React from 'react';
+import TodoItem from './TodoItem';
 
 // 定义一个React组件
 class TodoList extends React.Component {
@@ -39,7 +40,8 @@ class TodoList extends React.Component {
         <ul>
           {
             this.state.list.map((item, index) => {
-              return <li onClick={this.handleItemClick.bind(this, index)} key={index}>{item}</li>
+              return <TodoItem key={index} content={item} />
+              // return <li onClick={this.handleItemClick.bind(this, index)} key={index}>{item}</li>
             })
           }
         </ul>
