@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {Component, Fragment} from 'react';
 import TodoItem from './TodoItem';
 
 // 定义一个React组件
-class TodoList extends React.Component {
+class TodoList extends Component {
 
   constructor (props) {
     super(props);
@@ -10,6 +10,10 @@ class TodoList extends React.Component {
       list: [],
       inputValue: ''
     }
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleBtnClick = this.handleBtnClick.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
   handleBtnClick () {
     this.setState({
@@ -24,28 +28,32 @@ class TodoList extends React.Component {
     })
   }
 
-  handleItemClick (index) {
+  handleDelete (index) {
     const list = [...this.state.list];
     list.splice(index, 1);
-    this.setState({
-      list: list
-    })
+    this.setState({list})
+  }
+
+  getTodoItems () {
+    return (
+      this.state.list.map((item, index) => {
+        return <TodoItem
+          delete={this.handleDelete}
+            key={index}
+            content={item}
+            index={index}
+          />
+      })
+    )
   }
 
   render () {
     return (
-      <div>
-        <input value={this.state.inputValue} onChange={this.handleInputChange.bind(this)} />
-        <button onClick={this.handleBtnClick.bind(this)}>add</button>
-        <ul>
-          {
-            this.state.list.map((item, index) => {
-              return <TodoItem key={index} content={item} />
-              // return <li onClick={this.handleItemClick.bind(this, index)} key={index}>{item}</li>
-            })
-          }
-        </ul>
-      </div>
+      <Fragment>
+        <input value={this.state.inputValue} onChange={this.handleInputChange} />
+        <button className='red-btn' onClick={this.handleBtnClick}>add</button>
+        <ul>{this.getTodoItems()}</ul>
+      </Fragment>
     );
   }
 
