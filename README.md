@@ -1,2 +1,0 @@
-# react-demo
-react test
